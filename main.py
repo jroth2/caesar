@@ -32,17 +32,22 @@ def parse_args(argv=None):
 
 
 def encrypt_char(input_char,shift):
+    if input_char.islower():
+        charset = CHARSET.lower()
+    else:
+        charset = CHARSET
+        
 
-    for index,char in enumerate(CHARSET):
+    for index,char in enumerate(charset):
         if char==input_char:
             input_char_index = index
 
             # if the shift + index is greater than the length of charset, wrap around the index to the start of charset
-            if input_char_index + shift >= len(CHARSET):
-                shifted_index = (input_char_index + shift) - len(CHARSET)
+            if input_char_index + shift >= len(charset):
+                shifted_index = (input_char_index + shift) - len(charset)
             else:
                 shifted_index = input_char_index+shift
-            output_char = CHARSET[shifted_index]
+            output_char = charset[shifted_index]
             return output_char
     # only runs if no match in charset
     return input_char
