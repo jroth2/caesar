@@ -22,7 +22,7 @@ def main():
     elif args.encrypt:
         print(encrypt_string(args.string,args.shift))
     elif args.decrypt:
-        print("not yet implemented")
+        print(decrypt_string(args.string,args.shift))
     
 
 def parse_args(argv=None):
@@ -45,7 +45,30 @@ def parse_args(argv=None):
 
     return args
 
+def decrypt_char(input_char,shift):
+    if input_char.islower():
+        charset = CHARSET.lower()[::-1]
+    else:
+        charset = CHARSET[::-1]
+    for index,char in enumerate(charset):
+        if char==input_char:
+            input_char_index = index
 
+            # if the shift + index is greater than the length of charset, wrap around the index to the start of charset
+            if input_char_index + shift >= len(charset):
+                shifted_index = (input_char_index + shift) - len(charset)
+            else:
+                shifted_index = input_char_index+shift
+            output_char = charset[shifted_index]
+            return output_char
+    # only runs if no match in charset
+    return input_char
+
+def decrypt_string(input_str,shift):
+    output_list = []
+    for char in input_str:
+        output_list.append(decrypt_char(char,shift))
+    return "".join(output_list)
 
 def encrypt_char(input_char,shift):
     if input_char.islower():
