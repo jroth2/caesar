@@ -17,7 +17,13 @@ def main():
                 with open(args.output,"w") as f:
                     f.write(output)
         elif args.decrypt:
-            print("not yet implemented")
+            output = decrypt_string(input_str,args.shift)
+            if args.verbose:
+                print(f"Input string: {input_str}")
+                print(f"Output string: {output}")
+            if args.output:
+                with open(args.output,"w") as f:
+                    f.write(output)
 
     elif args.encrypt:
         print(encrypt_string(args.string,args.shift))
