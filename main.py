@@ -9,7 +9,13 @@ def main():
         with open(args.string,"r") as f:
             input_str = f.read()
         if args.encrypt:
-            print(encrypt_string(input_str,args.shift))
+            output = encrypt_string(input_str,args.shift)
+            if args.verbose:
+                print(f"Input string: {input_str}")
+                print(f"Encrypted string: {output}")
+            if args.output:
+                with open(args.output,"w") as f:
+                    f.write(output)
         elif args.decrypt:
             print("not yet implemented")
 
@@ -27,12 +33,15 @@ def parse_args(argv=None):
     parser.add_argument("-e", "--encrypt",action="store_true", help="Sets script to encrypt")
     parser.add_argument("-d", "--decrypt",action="store_true", help="Sets script to decrypt")
     parser.add_argument("-s", "--shift", type=int, default=1, help="Cipher offset to apply from 1-25 (default: 1).")
+    parser.add_argument("-o", "--output", help="File path to write the output to. If not provided, the output will be printed to the console.")
+    parser.add_argument("-v","--verbose", action="store_true", help="Print the arguments passed to the script and exit.")
 
     args = parser.parse_args(argv)
     if args.shift > len(CHARSET):
         args.shift = len(CHARSET)
 
-    print(args)
+    if args.verbose:
+        print(args)
 
     return args
 
