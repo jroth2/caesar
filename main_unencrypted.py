@@ -1,5 +1,4 @@
 import argparse
-import os
 
 
 CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -12,11 +11,9 @@ def main():
         if args.encrypt:
             output = encrypt_string(input_str,args.shift)
             if args.verbose:
-                print(args.output)
                 print(f"Input string: {input_str}")
                 print(f"Encrypted string: {output}")
             if args.output:
-                print(args.output)
                 with open(args.output,"w") as f:
                     f.write(output)
         elif args.decrypt:
@@ -42,23 +39,13 @@ def parse_args(argv=None):
     parser.add_argument("-e", "--encrypt",action="store_true", help="Sets script to encrypt")
     parser.add_argument("-d", "--decrypt",action="store_true", help="Sets script to decrypt")
     parser.add_argument("-s", "--shift", type=int, default=1, help="Cipher offset to apply from 1-25 (default: 1).")
-    parser.add_argument("-o", "--output",nargs='?', const="output/",help="File path to write the output to. If not provided, the output will be printed to the console.")
+    parser.add_argument("-o", "--output", help="File path to write the output to. If not provided, the output will be printed to the console.")
     parser.add_argument("-v","--verbose", action="store_true", help="Print the arguments passed to the script and exit.")
 
     args = parser.parse_args(argv)
     if args.shift > len(CHARSET):
         args.shift = len(CHARSET)
 
-
-
-    # if file and output flag used but no output path given
-    if (args.output=="output/") and args.encrypt and args.file:
-        args.output = os.path.join(os.getcwd(),"output","encrypted_" + args.string)
-    elif (args.output=="output/") and args.decrypt and args.file:
-        args.output = os.path.join(os.getcwd(),"output","decrypted_" + args.string)
-    # if output flag used but no file flag used
-
-    
     if args.verbose:
         print(args)
 
